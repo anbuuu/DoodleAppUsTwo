@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Size of Brushes -->
+    <dimen name="BRUSH_SMALL">10dp</dimen>
+    <integer name="SIZE_SMALL">10</integer>
+    <dimen name="BRUSH_MEDIUM">20dp</dimen>
+    <integer name="SIZE_MEDIUM">20</integer>
+    <dimen name="BRUSH_LARGE">30dp</dimen>
+    <integer name="SIZE_LARGE">30</integer>
+
+
+</resources>

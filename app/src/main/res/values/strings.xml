@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">DoodleSample</string>
+
+    <string name="new_doodle">New</string>
+    <string name="brush_doodle">Brush</string>
+    <string name="remove_doodle">Erase</string>
+    <string name="save_doodle">Save</string>
+    <string name="paint_doodle">Paint</string>
+    <string name="paint">Paint</string>
+
+    <string name="sml">Small</string>
+    <string name="med">Medium</string>
+    <string name="lrg">Large</string>
+    <string name="fill_doodle">Fill Background</string>
+    <string name="set_wallpaper_doodle">Set WallPaper</string>
+
+</resources>
