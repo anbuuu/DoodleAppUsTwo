@@ -33,9 +33,9 @@ Notes
 >> Set background takes a bit of time to do the fill background
 
 # Building the App
->> Can use Android Studio to import the project or 
->> Can use Gradle Commands to build the App
->> Go to App folder
->> ./gradlew clean build
->> ./gradlew assembleRelease
->> Install the Release APK on the Device 
+- Can use Android Studio to import the project or 
+- Can use Gradle Commands to build the App
+- Go to App folder
+ ./gradlew clean build
+ ./gradlew assembleRelease
+ Install the Release APK on the Device 
