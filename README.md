@@ -29,12 +29,12 @@ The Top Level Navigation in the App is of the following Order
 The Bottom Level navigation consists of the Color Palette which the user can choose from.
 
 Notes
-> For Simplicity purpose made the App as Portrait Version only 
-> Set background takes a bit of time to do the fill background
+>> For Simplicity purpose made the App as Portrait Version only 
+>> Set background takes a bit of time to do the fill background
 
 # Building the App
-> Can use Android Studio to import the project or 
-> Can use Gradle Commands to build the App
+>> Can use Android Studio to import the project or 
+>> Can use Gradle Commands to build the App
 >> Go to App folder
 >> ./gradlew clean build
 >> ./gradlew assembleRelease
