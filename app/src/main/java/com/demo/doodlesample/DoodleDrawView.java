@@ -16,26 +16,29 @@ import android.view.View;
 import java.util.LinkedList;
 import java.util.Queue;
 
-
+/**
+ * Draw View for the Application for the user to draw on canvas
+ */
 
 public class DoodleDrawView extends View{
 
 
-    //drawing path
+    // Drawing Path, Paint Canvas, Initial Paint Color and Bitmap Declarations
     private Path drawPath;
-    //drawing and canvas paint_canvas
     private Paint drawPaint, canvasPaint;
-    //initial color
     private int paintColor = 0xFF660000;
-    //canvas
     private Canvas drawingCanvas;
-    //canvas bitmap
     private Bitmap canvasBitmap;
 
+    // State for current and previous brush sizes
     private float currentBrushSize, previousBrushSize;
+
+    // Checking Erase Action
     private boolean eraseAction = false;
+
     private boolean isFilling = false;
 
+    // Initialise Constructor and setup Drawing Area
     public DoodleDrawView(Context context, AttributeSet attributeSet ) {
         super(context, attributeSet);
         setupDrawingArea();
@@ -43,16 +46,12 @@ public class DoodleDrawView extends View{
 
     private void setupDrawingArea() {
 
-        /*
-        We will use the first variable for the brush size and the second to keep track of the
-        last brush size used
-        when the user switches to the eraser, so that we can revert back to the correct size
-        when they decide to switch back to drawing
-         */
+
+        // Default is Medium Brush
         currentBrushSize = getResources().getInteger(R.integer.SIZE_MEDIUM);
         previousBrushSize = currentBrushSize;
 
-
+        // Initialise Draw Path and set Stroke width and style
         drawPath = new Path();
         drawPaint = new Paint();
         drawPaint.setColor(paintColor);
@@ -61,9 +60,7 @@ public class DoodleDrawView extends View{
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
-
         canvasPaint = new Paint(Paint.DITHER_FLAG);
-
     }
 
     @Override
@@ -81,23 +78,21 @@ public class DoodleDrawView extends View{
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        // Detecting User Touch
-        /**
-         * , we want user touches on it to register as drawing operations. To do this we need to listen for touch events
+        /*
+         *  User Touch as Drawing Operations, listening for touch events
          */
+
         float touchX = event.getX();
         float touchY = event.getY();
 
         /*
-        The MotionEvent parameter to the onTouchEvent method will let us respond to particular touch events.
-        The actions we are interested in to implement drawing are down, move and up.
+            Listening for Actions DOWN, MOVE and UP
         */
 
         if ( isFilling) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    //FloodFill(new Point((int) touchX, (int) touchY));
-
+                    FillBackground(new Point((int) touchX, (int) touchY));
                     invalidate();
                     break;
                 default:
@@ -126,9 +121,8 @@ public class DoodleDrawView extends View{
     }
 
     public void setColor(String newColor){
-        //set color
         invalidate();
-        // Next parse and set the color for drawing:
+        // Parse and set the Color for Drawing
         paintColor = Color.parseColor(newColor);
         drawPaint.setColor(paintColor);
     }
@@ -142,12 +136,7 @@ public class DoodleDrawView extends View{
 
     }
 
-    /*
-
-        We will be passing the value from the dimensions file when we call this
-        method, so we have to calculate its dimension value. We update the variable
-        and the Paint object to use the new size.
-     */
+    // Method to calculate its dimension value and update to its new size
     public void setPreviousBrushSize(float lastSize) {
         previousBrushSize = lastSize;
     }
@@ -162,15 +151,16 @@ public class DoodleDrawView extends View{
 
         //Now alter the Paint object to eraseAction or switch back to drawing
         if (eraseAction) {
-            //drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
             this.setColor("#FFFFFFFF");
-
         } else {
             drawPaint.setXfermode(null);
         }
     }
 
-    private synchronized void FloodFill(Point startPoint) {
+    /*
+        Background Fill for the View
+     */
+    private synchronized void FillBackground(Point startPoint) {
 
         Queue<Point> queue = new LinkedList<>();
         queue.add(startPoint);
@@ -210,16 +200,15 @@ public class DoodleDrawView extends View{
         isFilling = false;
     }
 
-    // Fill
+    // Checking the Mode of Operation
     public void fillColour() {
         isFilling = true;
 
     }
 
+    // Create new Drawing
     public void startNewDoodle(){
         drawingCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         invalidate();
     }
-
-
 }

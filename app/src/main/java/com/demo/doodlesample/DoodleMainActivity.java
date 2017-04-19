@@ -22,7 +22,10 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.UUID;
 
-
+/**
+ * Main Activity which shows the Application View for the User to Draw on the Screen
+ * Implements OnClickListener for handling Events for Brush Size, Color and Save Actions
+ */
 public class DoodleMainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private DoodleDrawView doodleDrawView;
@@ -42,13 +45,15 @@ public class DoodleMainActivity extends AppCompatActivity implements View.OnClic
         LinearLayout paintLayout = (LinearLayout)findViewById(R.id.paint_colors);
         currPaint = (ImageButton)paintLayout.getChildAt(0);
 
-        // We will use a different drawable image on the button to show that it is currently selected:
+        // Using a different drawable image to highlight selected
         currPaint.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.drawing_pressed));
 
+        // Initialise Paint Brushes
         smallBrush = getResources().getInteger(R.integer.SIZE_SMALL);
         mediumBrush = getResources().getInteger(R.integer.SIZE_MEDIUM);
         largeBrush = getResources().getInteger(R.integer.SIZE_LARGE);
 
+        // Paint Brush - Default
         ImageButton drawButton = (ImageButton) findViewById(R.id.img_button_brush);
         drawButton.setOnClickListener(this);
         doodleDrawView.setCurrentBrushSize(mediumBrush);
@@ -66,7 +71,7 @@ public class DoodleMainActivity extends AppCompatActivity implements View.OnClic
         ImageButton newDoodleButton = (ImageButton) findViewById(R.id.img_button_new_doodle);
         newDoodleButton.setOnClickListener(this);
 
-        // Save
+        // Save to Gallery
         ImageButton saveDoodleButton = (ImageButton) findViewById(R.id.img_button_save_doodle);
         saveDoodleButton.setOnClickListener(this);
 
@@ -74,6 +79,7 @@ public class DoodleMainActivity extends AppCompatActivity implements View.OnClic
         ImageButton setWallPaperButton = (ImageButton) findViewById(R.id.img_set_wallpaper);
         setWallPaperButton.setOnClickListener(this);
 
+        // Verify for the Permissions to Save
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -86,7 +92,10 @@ public class DoodleMainActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    // we can let the user choose colors
+    /**
+     * Method to initiate the User Action on Paint
+     * @param view
+     */
     public void paintClicked(View view){
         //use chosen color
         doodleDrawView.setEraseAction(false);
@@ -107,7 +116,7 @@ public class DoodleMainActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
 
-        // Check the on Click for Draw Events
+        // Listening for Click Events
         if (v.getId() == R.id.img_button_brush) {
 
             // Brush Sizes
@@ -148,7 +157,7 @@ public class DoodleMainActivity extends AppCompatActivity implements View.OnClic
 
             brushDialog.show();
 
-        } else if ( v.getId() == R.id.img_button_eraser) {
+        } else if ( v.getId() == R.id.img_button_eraser) { // Erase Button Clicked
             // Choose the eraser Size
             final Dialog brushDialog = new Dialog(this);
             brushDialog.setTitle("Eraser size:");
@@ -192,13 +201,12 @@ public class DoodleMainActivity extends AppCompatActivity implements View.OnClic
             });
 
             brushDialog.show();
-        } else if ( v.getId() == R.id.img_button_fill_bg) {
+        } else if ( v.getId() == R.id.img_button_fill_bg) { // Fill Background
 
             // Fill background
             doodleDrawView.fillColour();
 
         } else if ( v.getId() == R.id.img_button_new_doodle) {
-
 
             // Create New Doodle
             AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
@@ -226,14 +234,10 @@ public class DoodleMainActivity extends AppCompatActivity implements View.OnClic
                     //save drawing
                     doodleDrawView.setDrawingCacheEnabled(true);
 
-
                     /*
-                    We use the insertImage method to attempt to write the image to the media
-                    store for images on the device, which should save it to the user gallery.
-                    We pass the content resolver, drawing cache for the displayed View, a
-                    randomly generated UUID string for the filename with PNG extension
-                    and a short description
-                     */
+                    Using InsertImage to write the image to media store, passing
+                    content resolver, drawing cache and a random filename
+                    */
                     String saveImageToDevice = MediaStore.Images.Media.insertImage(
                             getContentResolver(),
                             doodleDrawView.getDrawingCache(),
@@ -259,10 +263,7 @@ public class DoodleMainActivity extends AppCompatActivity implements View.OnClic
                 }
             });
             saveDialog.show();
-        } else if ( v.getId() == R.id.img_set_wallpaper) {
-
-
-            ///
+        } else if ( v.getId() == R.id.img_set_wallpaper) { // Set Wall paper
             AlertDialog.Builder setAsWallPaperDialog = new AlertDialog.Builder(this);
             setAsWallPaperDialog.setTitle("Set Wall Paper");
             setAsWallPaperDialog.setMessage("Set Doodle as Wallpaper ? ");
@@ -272,11 +273,7 @@ public class DoodleMainActivity extends AppCompatActivity implements View.OnClic
                     doodleDrawView.setDrawingCacheEnabled(true);
 
                     /*
-                    We use the insertImage method to attempt to write the image to the media
-                    store for images on the device, which should save it to the user gallery.
-                    We pass the content resolver, drawing cache for the displayed View, a
-                    randomly generated UUID string for the filename with PNG extension
-                    and a short description
+                    Setup the Wall Paper using WallPaperManager
                      */
 
                     WallpaperManager customWallpaperManager
@@ -304,11 +301,6 @@ public class DoodleMainActivity extends AppCompatActivity implements View.OnClic
                 }
             });
             setAsWallPaperDialog.show();
-
         }
-
     }
-
-
-
 }
