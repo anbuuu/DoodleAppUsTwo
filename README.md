@@ -35,7 +35,7 @@ Notes
 # Building the App
 - Can use Android Studio to import the project or 
 - Can use Gradle Commands to build the App
-# Go to App folder
+# Installation
 - ./gradlew clean build
 - ./gradlew assembleRelease
 - Install the Release APK on the Device 
